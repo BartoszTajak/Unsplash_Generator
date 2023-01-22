@@ -3,15 +3,15 @@ import requests
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-from converting import Images_Converter
-import time
+from converting import ImagesConverter
+
 
 #Loading API KEY from external file
 load_dotenv(Path(".env"))
 API_KEY = os.getenv("API_KEY")
 
 
-class Images_Generator():
+class ImagesGenerator():
     """
     Class to search any images by using API Unsplash and then convert if needed
     Before the first use API Key is neede from https://unsplash.com/developers
@@ -59,27 +59,34 @@ class Images_Generator():
 
 
 
-    def converting_images(self,grey_scale : bool ):
+    def converting_images(self,grey_scale: bool = False , gaussian : int = 0, *resize):
         # creating a new catalog for converted photos
         converted_path = fr"images\{self.dic}\{self.dic}" + "_Converted"
         os.makedirs(converted_path, exist_ok=True)
-
-        # Creating a new object in order to convert files
-        p = Images_Converter()
+        # list of photos in catalog
         list_of_photos = os.listdir(f"images\{self.dic}")
-        if grey_scale == True:
-            for photo in list_of_photos:
-             p.grayscale(f"images\{self.dic}\{photo}", f'{converted_path}\{photo}')
-        else:
-            pass
+
+        # converting photos
+        for photo in list_of_photos:
+            # Creating a new object in order to convert files
+            new_photo = ImagesConverter(f"images\{self.dic}\{photo}", f'{converted_path}\{photo}')
+            if grey_scale == True:
+                new_photo.grayscale()
+            if gaussian != 0:
+                new_photo.gaussian(gaussian)
+            if resize != ():
+                new_photo.resize(resize[0])
+
+            new_photo.save()
+
 
 
 
 if __name__ == "__main__":
-    p = Images_Generator('PYTHON',10,'PYTHON_CODE')
-    p.searching()
-    p.downloading_images()
-    p.converting_images(True,)
+    p = ImagesGenerator('NewYork',40,'New_York')
+    # p.searching()
+    # p.downloading_images()
+    p.converting_images(True,0,(10,10))
 
 
 

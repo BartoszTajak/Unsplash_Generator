@@ -1,22 +1,56 @@
-from PIL import Image
+from PIL import Image ,ImageFilter
 
-class Images_Converter():
+class ImagesConverter():
+    def __init__(self,input_path,output_path):
+        self.input_path = input_path
+        self.output_path = output_path
+        self.primary_function()
 
-    def grayscale(self, input_image_path, output_image_path):
+    # opening files
+    def primary_function(self):
         try:
-            with Image.open(input_image_path) as img:
-                # converting img. to greyscale
-                gray_scale = img.convert("L")
-                gray_scale.save(output_image_path)
+            with Image.open(self.input_path) as self.img:
+                self.img.load()
+        except:
+            print('Openning failed')
+    # converting img. to greyscale
+
+    def grayscale(self,):
+        try:
+            self.img = self.img.convert("L")
+        except:
+            print('Converting failed')
+
+
+    # converting img. to gaussian filter
+    def gaussian(self,gaussian_value):
+        try:
+            self.img = self.img.filter(ImageFilter.GaussianBlur(gaussian_value))
+        except:
+            print('Converting failed')
+
+    # resizing images
+    def resize(self,new_size):
+        try:
+                self.img = self.img.resize(new_size)
         except:
             pass
 
 
-    def resize(self, input_image_path, output_image_path, new_size):
+    def save(self):
         try:
-            with Image.open(input_image_path) as img:
-                resized_image = img.resize(new_size)
-                resized_image.save(output_image_path)
+            self.img.save(self.output_path)
         except:
-            pass
+            print('Saving failed')
+
+
+
+
+
+
+
+
+
+
+
 
