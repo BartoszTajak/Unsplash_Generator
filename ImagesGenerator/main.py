@@ -3,8 +3,9 @@ import requests
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-from converting import ImagesConverter
-from Collage import CollageCreator
+from ImagesGenerator.converting import ImagesConverter
+from ImagesGenerator.Collage import CollageCreator
+current_path = os.path.dirname(os.getcwd())
 
 
 # Loading API KEY from external file
@@ -54,7 +55,7 @@ class ImagesGenerator:
 
     # Method to download images by ID Photos from searching()
     def downloading_images(self):
-        os.makedirs(fr"images\{self.dic}", exist_ok=True)
+        os.makedirs(current_path + f"\images\{self.dic}", exist_ok=True)
         try:
             for Photo_ID in self.searching():
                 link_to_img = requests.get(
@@ -62,21 +63,21 @@ class ImagesGenerator:
                     f'/download?ixid=MubhI3_D8BEN79D7Xli0kAc6Ol7HaNe0gkR3IAkuoDw&client_id={API_KEY}')
                 link_to_img = link_to_img.json()
                 print(link_to_img['url'])
-                urllib.request.urlretrieve(link_to_img['url'], f"images/{self.dic}/{Photo_ID}.jpg")
+                urllib.request.urlretrieve(link_to_img['url'], current_path + f"\images/{self.dic}/{Photo_ID}.jpg")
         except Exception:
             print('downloading failed')
 
     def converting_images(self, grey_scale: bool = False, gaussian: int = 0, *resize):
         # creating a new catalog for converted photos
-        converted_path = fr"images\{self.dic}\{self.dic}" + "_Converted"
+        converted_path = current_path+fr"\images\{self.dic}\{self.dic}" + "_Converted"
         os.makedirs(converted_path, exist_ok=True)
         # list of photos in catalog
-        list_of_photos = os.listdir(f"images\{self.dic}")
+        list_of_photos = os.listdir(current_path + f"\images\{self.dic}")
 
         # converting photos
         for photo in list_of_photos:
             # Creating a new object in order to convert files
-            new_photo = ImagesConverter(f"images\{self.dic}\{photo}", f'{converted_path}\{photo}')
+            new_photo = ImagesConverter(current_path + f"\images\{self.dic}\{photo}", f'{converted_path}\{photo}')
             if grey_scale is True:
                 new_photo.grayscale()
             if gaussian != 0:
@@ -94,4 +95,4 @@ def main(target: str, number: int, catalog: str, grey_scale: bool, gaussian: int
 
 
 if __name__ == "__main__":
-    main('winter', 46, 'winter', False, 0, 6, 10)
+    main('Poland', 46, 'Poland', True, 0, 6, 10)
