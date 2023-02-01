@@ -1,2 +1,3 @@
-import os
-current_path= os.path.dirname(os.getcwd())
+from main import current_path
+
+current_path = current_path

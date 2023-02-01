@@ -1,6 +1,6 @@
 from PIL import Image
 import os
-from . import current_path
+current_path = os.path.dirname(os.getcwd())
 
 
 class CollageCreator():

@@ -1,10 +1,11 @@
+import sys
 import urllib.request
 import requests
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-from ImagesGenerator.converting import ImagesConverter
-from ImagesGenerator.Collage import CollageCreator
+from converting import ImagesConverter
+from Collage import CollageCreator
 current_path = os.path.dirname(os.getcwd())
 
 
@@ -35,7 +36,7 @@ class ImagesGenerator:
         self.dic = dic
         # Executing method
         self.searching()
-        self.downloading_images()
+        # self.downloading_images()
 
     # Method to search photos on https://api.unsplash.com then  return list includes ID of photos
     def searching(self):
@@ -45,13 +46,20 @@ class ImagesGenerator:
                 response = requests.get(
                     f'https://api.unsplash.com/search/photos?page={numer_of_page}'
                     f'&query={self.search}&client_id={API_KEY}')
+                if response.status_code == 401:
+                    sys.exit(f"{response.json()['errors'][0]} {response.status_code}")
+                if response.json()['total'] == 0:
+                    raise ValueError ('No Results !!!')
                 search = response.json()
                 for i in range(10):
                     id_photos_list.append(search['results'][i]['id'])
                     if len(id_photos_list) == self.num:
                         return id_photos_list
-            except Exception:
-                print('Searching failed')
+            except requests.exceptions.ConnectionError as error:
+                print(error)
+                sys.exit('Connection Error')
+            except Exception as error:
+                sys.exit(f'Something wrong : {error}')
 
     # Method to download images by ID Photos from searching()
     def downloading_images(self):
@@ -62,10 +70,11 @@ class ImagesGenerator:
                     f'https://api.unsplash.com/photos/{Photo_ID}'
                     f'/download?ixid=MubhI3_D8BEN79D7Xli0kAc6Ol7HaNe0gkR3IAkuoDw&client_id={API_KEY}')
                 link_to_img = link_to_img.json()
-                print(link_to_img['url'])
+                # print(link_to_img)
+                # print(link_to_img['url'])
                 urllib.request.urlretrieve(link_to_img['url'], current_path + f"\images/{self.dic}/{Photo_ID}.jpg")
-        except Exception:
-            print('downloading failed')
+        except Exception as error:
+            print(f'Error references to : {error}')
 
     def converting_images(self, grey_scale: bool = False, gaussian: int = 0, *resize):
         # creating a new catalog for converted photos
@@ -95,4 +104,4 @@ def main(target: str, number: int, catalog: str, grey_scale: bool, gaussian: int
 
 
 if __name__ == "__main__":
-    main('Poland', 46, 'Poland', True, 0, 6, 10)
+    main('dfgdfg', 5, 'France', True, 1, 6, 10)

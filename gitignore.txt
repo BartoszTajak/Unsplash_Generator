@@ -119,6 +119,13 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+#custom
+ImagesGenerator/__pycache__
+ImagesGenerator/.env
+images/
+images/winter/
+__pycache__/
+
 # Environments
 .env
 .venv
@@ -160,5 +167,4 @@ cython_debug/
 #.idea/
 
 
-ImagesGenerator/__pycache__
-ImagesGenerator/.env
+
