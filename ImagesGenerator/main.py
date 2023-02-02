@@ -36,7 +36,7 @@ class ImagesGenerator:
         self.dic = dic
         # Executing method
         self.searching()
-        # self.downloading_images()
+        self.downloading_images()
 
     # Method to search photos on https://api.unsplash.com then  return list includes ID of photos
     def searching(self):
