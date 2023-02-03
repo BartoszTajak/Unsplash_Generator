@@ -1,6 +1,6 @@
 from PIL import Image
 import os
-current_path = os.path.dirname(os.getcwd())
+import config
 
 
 class CollageCreator():
@@ -9,7 +9,8 @@ class CollageCreator():
         self.padding = padding
 
     def main(self, place):
-        path = current_path +f"\images/{place}/{place}_Converted"
+        config.current_path = config.current_path + f'{place}\\{place}'
+        path = config.current_path + "_Converted"
         list_of_photos = os.listdir(path)
 
         # dimension of frame (size of pictures and padding)
@@ -26,7 +27,7 @@ class CollageCreator():
         number_of_foto = 1
         row = 1
         for image in list_of_photos:
-            image_one = Image.open(current_path +f"\images/{place}/{place}_Converted/{image}")
+            image_one = Image.open(config.current_path + f"_Converted\\{image}")
             img.paste(image_one, (position_x, position_y))
             position_x += 800 + self.padding
             if number_of_foto == int(self.collage_images ** (1 / 2)) * row:
@@ -35,4 +36,4 @@ class CollageCreator():
                 row += 1
             number_of_foto += 1
 
-        img.save(current_path +f"\images/{place}/{place}_Converted/Collage.png", "PNG")
+        img.save(config.current_path + "_Converted\\Collage.png", "PNG")
