@@ -1,17 +1,11 @@
+import os
 import sys
 import urllib.request
+
 import requests
-import os
-from dotenv import load_dotenv
-from pathlib import Path
+
 from converting import ImagesConverter
-from collage import CollageCreator
 import config
-
-
-# Loading API KEY from external file
-load_dotenv(Path(".env"))
-API_KEY = os.getenv("API_KEY")
 
 
 class ImagesGenerator:
@@ -30,11 +24,12 @@ class ImagesGenerator:
     padding : gap between images --> int
     """
 
-    def __init__(self, search: str, num: int, dic: str):
+    def __init__(self, search: str, num: int, dic: str, key: str):
         self.search = search
         self.num = num
         self.dic = dic
-        self.path = f'{config.current_path}{self.dic}'
+        self.path = f"{config.current_path}{self.dic}"
+        self.key = key
 
     # Method to search photos on https://api.unsplash.com then  return list includes ID of photos
     def searching(self):
@@ -42,21 +37,24 @@ class ImagesGenerator:
         for numer_of_page in range(1, 10):
             try:
                 response = requests.get(
-                    f'https://api.unsplash.com/search/photos?page={numer_of_page}'
-                    f'&query={self.search}&client_id={API_KEY}')
+                    f"https://api.unsplash.com/search/photos?page={numer_of_page}"
+                    f"&query={self.search}&client_id={self.key}"
+                )
                 if response.status_code == 401:
-                    raise ValueError(f"{response.json()['errors'][0]} {response.status_code}")
-                if response.json()['total'] == 0:
-                    raise ValueError('No Results !!!')
+                    raise ValueError(
+                        f"{response.json()['errors'][0]} {response.status_code}"
+                    )
+                if response.json()["total"] == 0:
+                    raise ValueError("No Results !!!")
                 search = response.json()
                 for i in range(10):
-                    id_photos_list.append(search['results'][i]['id'])
+                    id_photos_list.append(search["results"][i]["id"])
                     if len(id_photos_list) == self.num:
                         return id_photos_list
             except AssertionError as error:
                 raise (error)
             except Exception as error:
-                sys.exit(f'Something wrong : {error}')
+                sys.exit(f"Something wrong : {error}")
 
     # Method to download images by ID Photos from searching()
     def downloading_images(self):
@@ -64,16 +62,19 @@ class ImagesGenerator:
         try:
             for Photo_ID in self.searching():
                 link_to_img = requests.get(
-                    f'https://api.unsplash.com/photos/{Photo_ID}'
-                    f'/download?ixid=MubhI3_D8BEN79D7Xli0kAc6Ol7HaNe0gkR3IAkuoDw&client_id={API_KEY}')
+                    f"https://api.unsplash.com/photos/{Photo_ID}"
+                    f"/download?ixid=MubhI3_D8BEN79D7Xli0kAc6Ol7HaNe0gkR3IAkuoDw&client_id={self.key}"
+                )
                 link_to_img = link_to_img.json()
-                urllib.request.urlretrieve(link_to_img['url'], self.path + '\\' + f"{Photo_ID}.jpg")
+                urllib.request.urlretrieve(
+                    link_to_img["url"], self.path + "\\" + f"{Photo_ID}.jpg"
+                )
         except Exception as error:
-            print(f'Error references to : {error}')
+            print(f"Error references to : {error}")
 
     def converting_images(self, grey_scale: bool = False, gaussian: int = 0, *resize):
         # creating a new catalog for converted photos
-        converted_path = self.path + '\\' + self.dic + "_Converted"
+        converted_path = self.path + "\\" + self.dic + "_Converted"
         os.makedirs(converted_path, exist_ok=True)
         # list of photos in catalog
         list_of_photos = os.listdir(self.path)
@@ -81,7 +82,9 @@ class ImagesGenerator:
         # converting photos
         for photo in list_of_photos:
             # Creating a new object in order to convert files
-            new_photo = ImagesConverter(self.path + '\\' + photo, f'{converted_path}\\{photo}')
+            new_photo = ImagesConverter(
+                self.path + "\\" + photo, f"{converted_path}\\{photo}"
+            )
             if grey_scale is True:
                 new_photo.grayscale()
             if gaussian != 0:
@@ -89,16 +92,3 @@ class ImagesGenerator:
             if resize != ():
                 new_photo.resize(resize[0])
             new_photo.save()
-
-
-def main(target: str, number: int, catalog: str, grey_scale: bool, gaussian: int, rows_and_columns: int, padding: int):
-    p = ImagesGenerator(target, number, catalog)
-    p.searching()
-    p.downloading_images()
-    p.converting_images(grey_scale, gaussian, (800, 800))
-    collage = CollageCreator(rows_and_columns, padding)
-    collage.main(catalog)
-
-
-if __name__ == "__main__":
-    main('Canada', 10, 'Canada', True, 1, 6, 10)
