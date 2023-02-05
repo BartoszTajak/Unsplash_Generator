@@ -34,7 +34,7 @@ python3 gallery_generator/main.py
 
 ![App Screenshot](https://i.postimg.cc/HxJdWbq9/327117086-905430134218755-499799057236371167-n.png)
 ##
-![App Screenshot](https://i.postimg.cc/59LWP9by/327003217-1168683380499511-3512832973350874697-n.png)
+[![327003217-1168683380499511-3512832973350874697-n.png](https://i.postimg.cc/59LWP9by/327003217-1168683380499511-3512832973350874697-n.png)](https://postimg.cc/14mdXQg1)
 
 ## 🔗 Links
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/bartek-tajak-aa8662b0/)
