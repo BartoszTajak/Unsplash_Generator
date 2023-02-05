@@ -1,11 +1,10 @@
 import os
-import sys
 import urllib.request
-
 import requests
-
 from converting import ImagesConverter
-import config
+from config import *
+
+logger = logging_method(__name__)
 
 
 class ImagesGenerator:
@@ -28,7 +27,7 @@ class ImagesGenerator:
         self.search = search
         self.num = num
         self.dic = dic
-        self.path = f"{config.current_path}{self.dic}"
+        self.path = f"{current_path}{self.dic}"
         self.key = key
 
     # Method to search photos on https://api.unsplash.com then  return list includes ID of photos
@@ -41,20 +40,20 @@ class ImagesGenerator:
                     f"&query={self.search}&client_id={self.key}"
                 )
                 if response.status_code == 401:
-                    raise ValueError(
-                        f"{response.json()['errors'][0]} {response.status_code}"
-                    )
+                    logger.warning(f"{response.json()['errors'][0]} {response.status_code}")
+                    raise ValueError(f"{response.json()['errors'][0]} {response.status_code}")
+
                 if response.json()["total"] == 0:
+                    logger.warning("No Results !!!")
                     raise ValueError("No Results !!!")
                 search = response.json()
                 for i in range(10):
                     id_photos_list.append(search["results"][i]["id"])
                     if len(id_photos_list) == self.num:
                         return id_photos_list
-            except AssertionError as error:
-                raise (error)
             except Exception as error:
-                sys.exit(f"Something wrong : {error}")
+                logger.warning(error)
+                raise ValueError(error)
 
     # Method to download images by ID Photos from searching()
     def downloading_images(self):
@@ -70,7 +69,7 @@ class ImagesGenerator:
                     link_to_img["url"], self.path + "\\" + f"{Photo_ID}.jpg"
                 )
         except Exception as error:
-            print(f"Error references to : {error}")
+            logger.warning(error)
 
     def converting_images(self, grey_scale: bool = False, gaussian: int = 0, *resize):
         # creating a new catalog for converted photos
@@ -78,6 +77,7 @@ class ImagesGenerator:
         os.makedirs(converted_path, exist_ok=True)
         # list of photos in catalog
         list_of_photos = os.listdir(self.path)
+        logger.info(list_of_photos)
 
         # converting photos
         for photo in list_of_photos:

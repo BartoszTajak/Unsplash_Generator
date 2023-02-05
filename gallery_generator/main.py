@@ -18,7 +18,6 @@ def main(
     gallery_catalog: str,
     grey_scale: bool,
     gaussian: int,
-    rows_and_columns: int,
     padding: int,
 ):
     """
@@ -35,17 +34,16 @@ def main(
     p.searching()
     p.downloading_images()
     p.converting_images(grey_scale, gaussian, (800, 800))
-    collage = CollageCreator(rows_and_columns, padding)
-    collage.run(gallery_catalog)
+    collage = CollageCreator(number, padding)
+    collage.run(target)
 
 
 if __name__ == "__main__":
     main(
-        target="Canada", 
-        number=10, 
-        gallery_catalog="Canada", 
+        target="LONDON",
+        number=5,
+        gallery_catalog="LONDON",
         grey_scale=True, 
-        gaussian=1, 
-        rows_and_columns=6, 
+        gaussian=1,
         padding=10
     )

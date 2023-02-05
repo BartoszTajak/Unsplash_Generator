@@ -1,4 +1,7 @@
 from PIL import Image, ImageFilter
+from config import *
+
+logger = logging_method(__name__)
 
 
 class ImagesConverter():
@@ -9,31 +12,34 @@ class ImagesConverter():
             with Image.open(self.input_path) as self.img:
                 self.img.load()
         except Exception as error:
-            print(error)
+            logger.warning(error)
 
     # converting img. to greyscale
     def grayscale(self):
         try:
             self.img = self.img.convert("L")
         except Exception as error:
-            print('grayscale error :', error)
+            logger.warning(error)
+
 
     # converting img. to gaussian filter
     def gaussian(self, gaussian_value):
         try:
             self.img = self.img.filter(ImageFilter.GaussianBlur(gaussian_value))
         except Exception as error:
-            print('gaussian error : ', error)
+            logger.warning( error)
+
 
     # resizing images
     def resize(self, new_size):
         try:
             self.img = self.img.resize(new_size)
         except Exception as error:
-            print('resize error : ', error)
+            logger.warning( error)
+
 
     def save(self):
         try:
             self.img.save(self.output_path)
         except Exception as error:
-            print('save error : ', error)
+            logger.warning( error)
