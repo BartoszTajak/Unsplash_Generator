@@ -38,19 +38,19 @@ def main(
 
 if __name__ == "__main__":
 
-    argparse = argparse.ArgumentParser()
+    argparse = argparse.ArgumentParser('Script to searching , downloading and creating collage')
     argparse.add_argument\
-        ("-target", '-t', help="the topic to query --> string", type=str, required=True)
+        ('-t', "-target", help="the topic to query--> string", type=str, required=True , metavar='')
     argparse.add_argument\
-        ("-number", '-n', help="how  many images to download --> int", type=int, default=25)
+        ('-n', "-number", help="how  many images to download--> int", type=int, default=25, metavar='')
     argparse.add_argument\
-        ("-gallery_catalog", '-gc', help="name of a directory to keep the images --> string", type=str, required=True)
+        ('-gc', "-gallery_catalog", help="name of a directory--> string", type=str, required=True, metavar='')
     argparse.add_argument\
-        ("-grey_scale", '-gs', help="True or False --> bool", type=bool, default=False)
+        ('-gs', "-grey_scale", help="True or False --> bool", type=bool, default=False, metavar='')
     argparse.add_argument\
-        ("-gaussian", '-g', help="blur parameter. Value in range 0-100 --> int", type=int, default=0)
+        ('-g', "-gaussian", help="blur par. Value in range 0-100--> int", type=int, default=0, metavar='')
     argparse.add_argument\
-        ("-padding", '-p', help="gap between images --> int", type=int, default=10)
+        ('-p', "-padding", help="gap between img.--> int", type=int, default=10, metavar='')
     args = argparse.parse_args()
 
     main(
