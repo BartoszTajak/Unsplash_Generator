@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-setup(name='collage_maker',
+setup(name='gallery_generator',
       version='1.0',
       packages=['gallery_generator'],
       install_requires=[

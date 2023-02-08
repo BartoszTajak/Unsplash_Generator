@@ -1,12 +1,13 @@
 from math import sqrt
 from PIL import Image
-from config import *
+
+from gallery_generator.config import *
 
 logger = logging_method(__name__)
 
 
 class CollageCreator:
-    def __init__(self, num_images: int = 25, padding: int = 10, gallery_dir=current_path):
+    def __init__(self, gallery_dir: Path, num_images: int = 25, padding: int = 10):
         self.num_images = num_images
         self.padding = padding
         self.gallery_dir = gallery_dir
@@ -16,9 +17,7 @@ class CollageCreator:
 
     def run(self, target):
         # load images
-
-        path = Path(self.gallery_dir + f'\\{target}')
-        images = [Image.open(image) for image in path.iterdir() if image.is_file()]
+        images = [Image.open(image) for image in self.gallery_dir.iterdir() if image.is_file()]
 
         # calculate dimensions
         slots = int(sqrt(self.num_images) + 1)
@@ -44,5 +43,5 @@ class CollageCreator:
                 row += 1
             
             number_of_foto += 1
-        logger.warning(f"{path} + _Converted\\Collage.png")
-        collage.save(f"{path}\\{target}_Converted\\Collage.png", "PNG")
+        logger.info(f"Saved {self.gallery_dir}/collage.png")
+        collage.save(self.gallery_dir / "collage.png", "PNG")

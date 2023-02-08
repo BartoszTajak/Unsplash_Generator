@@ -15,21 +15,35 @@ pip install -e .
 ```
 
 ## Usage
-```bash
-    main(
-        target="LONDON",
-        number=16,
-        gallery_catalog="LONDON",
-        grey_scale=True, 
-        gaussian=1,
-        padding=10
-    )
+```python
+>>> import gallery_generator
+>>> gallery_generator.run(target="LONDON", number=16, gallery_catalog="LONDON", grey_scale=True,  gaussian=1, padding=10)
 ```
 
 ## Command-line usage
 ```bash
-python3 gallery_generator/main.py
+usage: Script to searching , downloading and creating collage [-h] -t  [-n] -gc  [-gs] [-g] [-p]
+
+options:
+  -h, --help            show this help message and exit
+  -t , -target          the topic to query--> string
+  -n , -number          how many images to download--> int
+  -gc , -gallery_catalog 
+                        name of a directory--> string
+  -gs , -grey_scale     True or False --> bool
+  -g , -gaussian        blur par. Value in range 0-100--> int
+  -p , -padding         gap between img.--> int
 ```
+
+```bash
+python3 gallery_generator/main.py \
+    -t cats \
+    -n 10 \
+    -gc out \
+    -g 20 \
+    -p 2
+```
+
 ## Sample collages 
 
 ![App Screenshot](https://i.postimg.cc/HxJdWbq9/327117086-905430134218755-499799057236371167-n.png)

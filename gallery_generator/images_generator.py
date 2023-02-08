@@ -1,8 +1,9 @@
 import os
 import urllib.request
 import requests
-from converting import ImagesConverter
-from config import *
+
+from gallery_generator.converting import ImagesConverter
+from gallery_generator.config import *
 
 logger = logging_method(__name__)
 
@@ -23,11 +24,10 @@ class ImagesGenerator:
     padding : gap between images --> int
     """
 
-    def __init__(self, search: str, num: int, dic: str, key: str):
+    def __init__(self, search: str, num: int, key: str, gallery_dir: Path):
         self.search = search
         self.num = num
-        self.dic = dic
-        self.path = f"{current_path}{self.dic}"
+        self.gallery_dir = gallery_dir
         self.key = key
 
     # Method to search photos on https://api.unsplash.com then  return list includes ID of photos
@@ -42,7 +42,7 @@ class ImagesGenerator:
                 if response.status_code == 401:
                     logger.warning(f"{response.json()['errors'][0]} {response.status_code}")
                     raise ValueError(f"{response.json()['errors'][0]} {response.status_code}")
-
+                print(response.json()["total"])
                 if response.json()["total"] == 0:
                     logger.warning("No Results !!!")
                     raise ValueError("No Results !!!")
@@ -57,7 +57,7 @@ class ImagesGenerator:
 
     # Method to download images by ID Photos from searching()
     def downloading_images(self):
-        os.makedirs(self.path, exist_ok=True)
+        self.gallery_dir.mkdir(exist_ok=True, parents=True)
         try:
             for Photo_ID in self.searching():
                 link_to_img = requests.get(
@@ -66,14 +66,14 @@ class ImagesGenerator:
                 )
                 link_to_img = link_to_img.json()
                 urllib.request.urlretrieve(
-                    link_to_img["url"], self.path + "\\" + f"{Photo_ID}.jpg"
+                    link_to_img["url"], str(self.gallery_dir / f"{Photo_ID}.jpg")
                 )
         except Exception as error:
             logger.warning(error)
 
     def converting_images(self, grey_scale: bool = False, gaussian: int = 0, *resize):
         # creating a new catalog for converted photos
-        converted_path = self.path + "\\" + self.dic + "_Converted"
+        converted_path = str(self.gallery_dir / "converted")
         os.makedirs(converted_path, exist_ok=True)
         # list of photos in catalog
         list_of_photos = os.listdir(self.path)

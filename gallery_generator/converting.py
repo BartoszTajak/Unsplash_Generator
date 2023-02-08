@@ -1,5 +1,6 @@
 from PIL import Image, ImageFilter
-from config import *
+
+from gallery_generator.config import *
 
 logger = logging_method(__name__)
 

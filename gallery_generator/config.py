@@ -1,6 +1,5 @@
 from pathlib import Path
 import logging
-current_path = f'{Path(__file__).parent.parent}\\images\\'
 
 
 def logging_method(__name__):
