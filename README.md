@@ -46,7 +46,7 @@ python3 gallery_generator/main.py \
 
 ## Sample collages 
 Samples for target : Cats and Spain
-![App Screenshot](https://i.postimg.cc/X7JgJ9yx/collage.png)
+![App Screenshot](https://i.postimg.cc/VNjhRXgn/collagejpg.jpg)
 
 
 
