@@ -42,8 +42,8 @@ class ImagesGenerator:
                 if response.status_code == 401:
                     logger.warning(f"{response.json()['errors'][0]} {response.status_code}")
                     raise ValueError(f"{response.json()['errors'][0]} {response.status_code}")
-
-                if response.json()["total"] == 0:
+                print(response.json())
+                if response.json()["total"] < self.num:
                     logger.warning("No Results !!!")
                     raise ValueError("No Results !!!")
                 search = response.json()

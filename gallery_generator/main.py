@@ -12,12 +12,14 @@ API_KEY = os.getenv("API_KEY")
 
 
 def main(
+
     target: str,
     number: int,
     gallery_catalog: str,
     grey_scale: bool,
     gaussian: int,
     padding: int,
+
 ):
     """
     Parameters :
@@ -38,26 +40,35 @@ def main(
 
 if __name__ == "__main__":
 
-    argparse = argparse.ArgumentParser('Script to searching , downloading and creating collage')
-    argparse.add_argument\
-        ('-t', "-target", help="the topic to query--> string", type=str, required=True , metavar='')
-    argparse.add_argument\
-        ('-n', "-number", help="how  many images to download--> int", type=int, default=25, metavar='')
-    argparse.add_argument\
-        ('-gc', "-gallery_catalog", help="name of a directory--> string", type=str, required=True, metavar='')
-    argparse.add_argument\
-        ('-gs', "-grey_scale", help="True or False --> bool", type=bool, default=False, metavar='')
-    argparse.add_argument\
-        ('-g', "-gaussian", help="blur par. Value in range 0-100--> int", type=int, default=0, metavar='')
-    argparse.add_argument\
-        ('-p', "-padding", help="gap between img.--> int", type=int, default=10, metavar='')
-    args = argparse.parse_args()
+    # argparse = argparse.ArgumentParser('Script to searching , downloading and creating collage')
+    # argparse.add_argument\
+    #     ('-t', "-target", help="the topic to query--> string", type=str, required=True , metavar='')
+    # argparse.add_argument\
+    #     ('-n', "-number", help="how  many images to download--> int", type=int, default=25, metavar='')
+    # argparse.add_argument\
+    #     ('-gc', "-gallery_catalog", help="name of a directory--> string", type=str, required=True, metavar='')
+    # argparse.add_argument\
+    #     ('-gs', "-grey_scale", help="True or False --> bool", type=bool, default=False, metavar='')
+    # argparse.add_argument\
+    #     ('-g', "-gaussian", help="blur par. Value in range 0-100--> int", type=int, default=0, metavar='')
+    # argparse.add_argument\
+    #     ('-p', "-padding", help="gap between img.--> int", type=int, default=10, metavar='')
+    # argparse.add_argument('-t','--test',  metavar='',action='append')
 
-    main(
-        target=args.target,
-        number=args.number,
-        gallery_catalog=args.gallery_catalog,
-        grey_scale=args.grey_scale,
-        gaussian=args.gaussian,
-        padding=args.padding,
-    )
+    # args = argparse.parse_args()
+
+
+
+
+    # main(
+        # target=args.target,
+        # number=args.number,
+        # gallery_catalog=args.gallery_catalog,
+        # grey_scale=args.grey_scale,
+        # gaussian=args.gaussian,
+        # padding=args.padding,
+        # testt = args.test,
+
+    main(target="LONGON", number=16, gallery_catalog="LONDON", grey_scale=True, gaussian=1,
+                               padding=10)
+    # )
