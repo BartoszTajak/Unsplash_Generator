@@ -21,8 +21,8 @@ def main(
         padding : gap between images --> int
     """
     p = ImagesGenerator(search=target, num=number, gallery_dir=gallery_catalog, key=API_KEY)
-    # p.searching()
-    # p.downloading_images()
+    p.searching()
+    p.downloading_images()
     p.converting_images(grey_scale, gaussian, (800, 800))
     collage = CollageCreator(number, padding, gallery_dir=gallery_catalog)
     collage.run()

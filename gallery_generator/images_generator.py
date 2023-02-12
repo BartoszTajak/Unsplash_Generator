@@ -26,11 +26,11 @@ class ImagesGenerator:
     """
 
     def __init__(self, search: str, num: int, gallery_dir: Path, key):
-
         self.search = search
         self.num = num
-        self.gallery_dir = Path('images'/gallery_dir)
+        self.gallery_dir = Path('images') / gallery_dir
         self.key = key
+
 
     # Method to search photos on https://api.unsplash.com then  return list includes ID of photos
     def searching(self):
@@ -86,7 +86,7 @@ class ImagesGenerator:
         for photo in list_of_photos:
             # Creating a new object in order to convert files
             new_photo = ImagesConverter(
-                f"{self.gallery_dir}\\{photo}", f"{converted_path}\\{photo}"
+                Path(self.gallery_dir) / photo, Path(converted_path) / photo
             )
             if grey_scale == True:
                 new_photo.grayscale()

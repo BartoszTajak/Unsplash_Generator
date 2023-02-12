@@ -36,9 +36,9 @@ options:
 ```
 
 ```bash
-python3 gallery_generator/main.py \
+python3 -m gallery_generator \
     -t cats \
-    -n 10 \
+    -n 16 \
     -gc out \
     -g 20 \
     -p 2

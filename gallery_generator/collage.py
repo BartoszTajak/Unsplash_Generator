@@ -10,7 +10,7 @@ class CollageCreator:
     def __init__(self, num_images: int = 25, padding: int = 10, gallery_dir=''):
         self.num_images = num_images
         self.padding = padding
-        self.gallery_dir = Path('images'/gallery_dir/'converted')
+        self.gallery_dir = Path('images') / gallery_dir / 'converted'
         if sqrt(num_images) % 1 != 0:
             logger.warning("Number of images must be a square number")
             raise ValueError("Number of images must be a square number")
