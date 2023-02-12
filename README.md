@@ -36,9 +36,9 @@ options:
 ```
 
 ```bash
-python3 gallery_generator/main.py \
+python3 -m gallery_generator \
     -t cats \
-    -n 10 \
+    -n 16 \
     -gc out \
     -g 20 \
     -p 2
@@ -46,7 +46,7 @@ python3 gallery_generator/main.py \
 
 ## Sample collages 
 Samples for target : Cats and Spain
-![App Screenshot](https://i.postimg.cc/X7JgJ9yx/collage.png)
+![App Screenshot](https://i.postimg.cc/VNjhRXgn/collagejpg.jpg)
 
 
 
